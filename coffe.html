@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Coffee AI – Precision Automation</title>
+
+<style>
+:root {
+  --black: #0b0b0f;
+  --maroon: #5b0f1a;
+  --red: #dc2626;
+  --white: #ffffff;
+
+  --muted: rgba(255,255,255,0.65);
+  --glass: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ---------------- LOADER ---------------- */
+
+#loader {
+  position: fixed;
+  inset: 0;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+.loader-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(var(--maroon) 0%, var(--red) 0%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.loader-inner {
+  width: 95px;
+  height: 95px;
+  background: var(--black);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+}
+
+.loader-text { color: var(--muted); font-size: 14px; }
+
+/* ---------------- WEBSITE ---------------- */
+
+body {
+  background: radial-gradient(circle at top, #14070a, var(--black));
+  color: var(--white);
+  line-height: 1.6;
+}
+
+.hidden { visibility: hidden; }
+
+/* HEADER */
+
+header {
+  padding: 28px 80px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+header h1 span { color: var(--red); }
+
+.header-btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--maroon), var(--red));
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.header-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(220,38,38,0.4);
+}
+
+/* SECTIONS */
+
+section { padding: 100px 80px; }
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.hero h2 {
+  font-size: 56px;
+  margin-bottom: 24px;
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 560px;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+
+.cta {
+  padding: 16px 36px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--maroon), var(--red));
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.box, .card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  transition: 0.3s ease;
+}
+
+.box:hover, .card:hover {
+  border-color: var(--red);
+  transform: translateY(-5px);
+}
+
+/* ABOUT */
+
+.section-title {
+  font-size: 38px;
+  margin-bottom: 18px;
+}
+
+.section-sub {
+  color: var(--muted);
+  max-width: 600px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.linkedin {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 26px;
+  height: 26px;
+  fill: var(--muted);
+  transition: 0.3s ease;
+}
+
+.linkedin:hover {
+  fill: var(--red);
+  transform: scale(1.1);
+}
+
+.box { position: relative; }
+.box h3 { margin-bottom: 16px; }
+.box p { color: var(--muted); }
+
+/* PRICING */
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.price {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 16px 0;
+}
+
+.price span { font-size: 14px; color: var(--muted); }
+
+ul { list-style: none; margin-top: 20px; }
+ul li { margin-bottom: 10px; color: var(--muted); }
+
+/* FOOTER */
+
+footer {
+  padding: 48px 80px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+}
+
+.socials a svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--muted);
+  transition: 0.3s ease;
+}
+
+.socials a:hover svg {
+  fill: var(--red);
+  transform: translateY(-3px);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  header, section, footer { padding: 40px 24px; }
+  .hero, .about-grid, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-circle" id="progressCircle">
+    <div class="loader-inner">☕</div>
+  </div>
+  <div class="loader-text">Brewing precision...</div>
+</div>
+
+<div id="content" class="hidden">
+
+<header>
+  <h1>Coffee<span>AI</span></h1>
+  <a href="mailto:hello@coffeeai.com" class="header-btn">Start</a>
+</header>
+
+<main>
+
+<section class="hero">
+  <div>
+    <h2>☕ Dark intelligence brewed for execution</h2>
+    <p>
+      Coffee AI builds high-performance automation systems.
+      Structured. Focused. Engineered for operators.
+    </p>
+    <a href="mailto:hello@coffeeai.com" class="cta">Start Brewing</a>
+  </div>
+
+  <div class="box">
+    <h3>What we build</h3>
+    <p>
+      AI agents, workflow automation, dashboards,
+      and scalable systems designed for serious growth.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">About Coffee AI</h2>
+
+  <div class="about-grid">
+
+    <div class="box">
+      <a href="https://linkedin.com" target="_blank">
+        <svg class="linkedin" viewBox="0 0 24 24">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5zM.5 8h4v14h-4V8zm7 0h3.6v1.9h.05c.5-.95 1.75-1.95 3.6-1.95 3.85 0 4.55 2.5 4.55 5.75V22h-4v-7.1c0-1.7-.03-3.9-2.38-3.9-2.38 0-2.75 1.85-2.75 3.75V22h-4V8z"/>
+        </svg>
+      </a>
+      <h3>Founder</h3>
+      <p>
+        Built by an operator focused on execution.
+        Coffee AI exists to remove friction and
+        build systems that actually perform.
+      </p>
+    </div>
+
+    <div class="box">
+      <h3>Story</h3>
+      <p>
+        From small automation experiments to structured AI systems
+        for performance-driven businesses.
+      </p>
+    </div>
+
+    <div class="box">
+      <h3>Global 🌍</h3>
+      <p>
+        Serving businesses worldwide. Built for scale.
+      </p>
+    </div>
+
+    <div class="box">
+      <h3>Portfolio</h3>
+      <p>
+        Automation pipelines, AI systems,
+        measurable operational improvements.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section id="pricing">
+  <h2 class="section-title">Pricing</h2>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>Starter Brew</h4>
+      <div class="price">€1,500<span> one-time</span></div>
+    </div>
+
+    <div class="card">
+      <h4>Growth Blend</h4>
+      <div class="price">€3,500<span> project</span></div>
+    </div>
+
+    <div class="card">
+      <h4>Operator Roast</h4>
+      <div class="price">€2,000<span> / month</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>© 2026 Coffee AI</div>
+
+  <div class="socials">
+
+    <a href="https://linkedin.com" target="_blank">
+      <svg viewBox="0 0 24 24">
+        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5zM.5 8h4v14h-4V8zm7 0h3.6v1.9h.05c.5-.95 1.75-1.95 3.6-1.95 3.85 0 4.55 2.5 4.55 5.75V22h-4v-7.1c0-1.7-.03-3.9-2.38-3.9-2.38 0-2.75 1.85-2.75 3.75V22h-4V8z"/>
+      </svg>
+    </a>
+
+    <a href="https://instagram.com" target="_blank">
+      <svg viewBox="0 0 24 24">
+        <path d="M7.75 2h8.5C19.66 2 22 4.34 22 7.75v8.5C22 19.66 19.66 22 16.25 22h-8.5C4.34 22 2 19.66 2 16.25v-8.5C2 4.34 4.34 2 7.75 2z"/>
+      </svg>
+    </a>
+
+  </div>
+</footer>
+
+</div>
+
+<script>
+const circle = document.getElementById("progressCircle");
+const loader = document.getElementById("loader");
+const content = document.getElementById("content");
+
+let progress = 0;
+const duration = 3000;
+const intervalTime = 30;
+const step = 100 / (duration / intervalTime);
+
+const interval = setInterval(() => {
+  progress += step;
+  if (progress >= 100) {
+    progress = 100;
+    clearInterval(interval);
+    loader.style.opacity = "0";
+    setTimeout(() => {
+      loader.style.display = "none";
+      content.classList.remove("hidden");
+    }, 600);
+  }
+
+  circle.style.background =
+    `conic-gradient(var(--maroon) ${progress}%, var(--red) ${progress}%)`;
+
+}, intervalTime);
+</script>
+
+</body>
+</html>
+
